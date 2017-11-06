@@ -27,7 +27,7 @@ var analyzerDefer = Q.defer();
  return analyzerDefer.promise;
 }
 //var textArray = ["Eu sou apaixonado por maçãs.","Eu odeio pêras.","Eu tolero uvas."];
-exports.arrayAnalyzer = functions(textArray){
+exports.arrayAnalyzerByTone = functions(textArray){
   var arrayDefer = Q.defer();
   var analysisArray = [];
   for(var i=0;i<textArray.length;i++){
