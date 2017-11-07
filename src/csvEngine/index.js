@@ -10,7 +10,7 @@ const readStreamDefaults = {
 };
 exports.convertCSVtoJSON = function(filename){
   var conversionDefer = Q.defer();
-  var csvStream = fs.createReadStream('./resources/'+fileName+'.csv', readStreamDefaults);
+  var csvStream = fs.createReadStream('./resources/'+filename+'.csv', readStreamDefaults);
   var finalJsonArray = [];
   csv({noheader:false})
   .fromStream(csvStream)
@@ -20,7 +20,16 @@ exports.convertCSVtoJSON = function(filename){
   })
   .on('done',()=>{
       console.log("done");
-      fs.writeFile('./resources/'+fileName+'.csv',JSON.stringify(finalJsonArray),(err)=>{if(err){console.log(err);}});
+      fs.writeFile('./resources/'+filename+'.csv',JSON.stringify(finalJsonArray),
+        (err)=>{
+          if(err){
+            console.log(err);
+          }
+          else{
+            console.log("written");
+          }
+        }
+      );
       conversionDefer.resolve({"status":200,"body":finalJsonArray});
   });
   return conversionDefer.promise;

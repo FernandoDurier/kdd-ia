@@ -31,23 +31,25 @@ nlu.analyze({
  return analyzerDefer.promise;
 }
 //var textArray = ["Eu sou apaixonado por maçãs.","Eu odeio pêras.","Eu tolero uvas."];
-exports.arrayAnalyzer = functions(textArray){
+exports.arrayAnalyzer = function(textArray){
   var arrayDefer = Q.defer();
   var analysisArray = [];
   for(var i=0;i<textArray.length;i++){
+    var x = i;
+    var limit = textArray.length;
     analyzerByTone(textArray[i])
     .then(
       (data)=>{
-        console.log("----------------------------------------");
-        console.log("Text: ", data.msg);
-        console.log("Tone: ", JSON.stringify(data.body,null,2) );
+        //console.log("----------------------------------------");
+        //console.log("Text: ", data.msg);
+        //console.log("Tone: ", JSON.stringify(data.body,null,2) );
         analysisArray.push({"text":data.msg,"sentiment":data.body.sentiment});
+        if((x+1)==limit){
+          //console.log("------------------------------------");
+          arrayDefer.resolve({"status":200,"body":analysisArray});
+        }
       }
     );
-    if(i+1==textArray.length){
-      console.log("------------------------------------");
-      arrayDefer.resolve({"status":200,"body":analysisArray});
-    }
   }
   return arrayDefer.promise;
 }
